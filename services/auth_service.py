@@ -13,7 +13,7 @@ def register_user():
         sys.stderr.write("Failed!\n")
 
 def register_report(user_id: int):
-    date = input("Date: ")
+    date = input("Date(yyyy-mm-dd): ")
     content = input("Content: ")
     if create_report(user_id, date, content):
         print("Registered!")

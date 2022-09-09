@@ -1,7 +1,6 @@
 import os
 import sys
 import json
-from utils.validators import validate_email, validate_password
 from models.user import User
 
 db_path = "data/db.json"
@@ -30,8 +29,8 @@ def create_user(
     data = get_users()
     if data["users"] is None:
         return False
-    if (validate_email(data["users"], len(data["users"]) + 1, email)  == False 
-            or validate_password(name, password) == False):
+    if (User.validate_email(data["users"], len(data["users"]) + 1, email)  == False 
+            or User.validate_password(name, password) == False):
         return False
     user = User(len(data["users"]) + 1, name, email, password, role)
     data["users"].append(user.to_dict)
@@ -47,8 +46,8 @@ def update_user(
     exist_user = get_user_by_id(id)
     if data["users"] is None or exist_user is None:
         return False
-    if (validate_email(data["users"], id, email) == False 
-            or validate_password(name, password) == False):
+    if (User.validate_email(data["users"], id, email) == False 
+            or User.validate_password(name, password) == False):
        return False
     filter = [user for user in data["users"] if user["id"] == id]
     user = User(id, name, email, password, role)
@@ -73,10 +72,10 @@ def patch_user(id: int, **kwargs) -> bool:
     filter = [user for user in data["users"] if user["id"] == id]
     for key in kwargs.keys():
         if key == 'email':
-            if validate_email(data["users"], (filter[0])['id'], kwargs[key]) == False:
+            if User.validate_email(data["users"], (filter[0])['id'], kwargs[key]) == False:
                 return False
         elif key == 'password':
-            if validate_password((filter[0])['name'], kwargs[key]) == False:
+            if User.validate_password((filter[0])['name'], kwargs[key]) == False:
                 return False
     filter[0].update(kwargs)
     obj = json.dumps(data, indent=4)

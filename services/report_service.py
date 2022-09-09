@@ -1,7 +1,6 @@
 import os
 import sys
 import json
-from utils.validators import validate_date, validate_content
 from services.user_service import get_user_by_id
 from models.report import Report
 
@@ -36,8 +35,8 @@ def create_report(
     user = get_user_by_id(user_id)
     if data["reports"] is None or user is None:
         return False
-    if (validate_date(date) == False 
-            or validate_content(content) == False):
+    if (Report.validate_date(date) == False 
+            or Report.validate_content(content) == False):
         return False
     report = Report(len(data["reports"]) + 1, user_id, date, content)
     data["reports"].append(report.to_dict)
@@ -53,8 +52,8 @@ def update_report(
     user = get_user_by_id(user_id)
     if data["reports"] is None or user is None:
         return False
-    if (validate_date(date) == False 
-            or validate_content(content) == False):
+    if (Report.validate_date(date) == False 
+            or Report.validate_content(content) == False):
         return False
     filter = [report for report in data["reports"] if report["id"] == id]
     if len(filter) == 1:
@@ -83,10 +82,10 @@ def patch_report(id: int, **kwargs) -> bool:
     if len(filter) == 1:
         for key in kwargs.keys():
             if key == 'date':
-                if validate_date(kwargs[key]) == False:
+                if Report.validate_date(kwargs[key]) == False:
                     return False
             elif key == 'content':
-                if validate_content(kwargs[key]) == False:
+                if Report.validate_content(kwargs[key]) == False:
                     return False
         filter[0].update(kwargs)
     else:

@@ -2,7 +2,6 @@ from services.auth_service import login, register_user, register_report
 from services.user_service import get_users
 from services.report_service import get_reports, get_teacher_reports, get_report_by_date
 from views import list_users, list_reports, list_teacher_reports, list_date_reports
-from utils.validators import validate_date
 from menus.user_menu import user_menu
 from menus.report_menu import report_menu
 from utils.clean import clean, clear_screen
