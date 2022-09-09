@@ -40,6 +40,36 @@ You should have Python 3 installed and a programming environment set up on your 
 
 ## Project structure
 
+```
+.
+├── data
+│   └── db.json
+├── db
+│   └── init.py
+├── LICENSE
+├── main.py
+├── menus
+│   ├── flow.py
+│   ├── main_menu.py
+│   ├── report_menu.py
+│   └── user_menu.py
+├── models
+│   ├── report.py
+│   └── user.py
+├── README.md
+├── requirements.txt
+├── services
+│   ├── auth_service.py
+│   ├── report_service.py
+│   └── user_service.py
+├── utils
+│   ├── clean.py
+│   ├── connect.py
+│   ├── utils.py
+│   └── validators.py
+└── views.py
+```
+
 ## Usage
 
 Run the application:
