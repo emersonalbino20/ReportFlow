@@ -1,0 +1,50 @@
+import os
+import sys
+import json
+
+class User:
+    def __init__(self):
+        pass
+    
+    def get(self):
+        if os.path.isfile("data/db.json"):
+            try:
+                with open("data/db.json", mode="rt", encoding="utf-8") as f:
+                    return json.load(f)
+            except:
+                sys.stderr.write("Error: fetch data")
+        else:
+            sys.stderr.write("Error: db connection")
+
+    def post(self, name: str, email: str, password: str, id=0, role="teacher") -> None:
+        if os.path.isfile("data/db.json"):
+            data = self.get()
+            if data is None:
+                return
+            data.append({ "id": id, "name": name, "email": email, "password": password, "role": role})
+            obj = json.dumps(data, indent=4)
+            with open("data/db.json", mode="wt", encoding="utf-8") as f:
+                f.write(obj)
+        else:
+            sys.stderr.write("Error: db connection failed")
+
+    def put(self, id: int, name: str, email: str, password: str, role: str) -> None:
+        if os.path.isfile("data/db.json"):
+            data = self.get()
+            if data is None:
+                return
+            filter = [user for user in data if user["id"] == id]
+            if len(filter) == 1:
+                filter[0].update({ "id": id, "name": name, "email": email, "password": password, "role": role})
+            else:
+                return
+            obj = json.dumps(data, indent=4)
+            with open("data/db.json", mode="wt", encoding="utf-8") as f:
+                f.write(obj)
+        else:
+            sys.stderr.write("Error: db connection failed")
+
+prof = User()
+prof.put("emerson", "email@gmail", "a", 1, "teacher")
+# prof.put("hole", "hole@fmail.com", "1221", 0, "cordinator")
+print(prof.get())
