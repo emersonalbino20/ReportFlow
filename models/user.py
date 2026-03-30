@@ -17,32 +17,26 @@ class User:
             sys.stderr.write("Error: db connection")
 
     def post(self, name: str, email: str, password: str, id=0, role="teacher") -> None:
-        if os.path.isfile("data/db.json"):
-            data = self.get()
-            if data is None:
-                return
-            data.append({ "id": id, "name": name, "email": email, "password": password, "role": role})
-            obj = json.dumps(data, indent=4)
-            with open("data/db.json", mode="wt", encoding="utf-8") as f:
-                f.write(obj)
-        else:
-            sys.stderr.write("Error: db connection failed")
+        data = self.get()
+        if data is None:
+            return
+        data.append({ "id": id, "name": name, "email": email, "password": password, "role": role})
+        obj = json.dumps(data, indent=4)
+        with open("data/db.json", mode="wt", encoding="utf-8") as f:
+            f.write(obj)
 
     def put(self, id: int, name: str, email: str, password: str, role: str) -> None:
-        if os.path.isfile("data/db.json"):
-            data = self.get()
-            if data is None:
-                return
-            filter = [user for user in data if user["id"] == id]
-            if len(filter) == 1:
-                filter[0].update({ "id": id, "name": name, "email": email, "password": password, "role": role})
-            else:
-                return
-            obj = json.dumps(data, indent=4)
-            with open("data/db.json", mode="wt", encoding="utf-8") as f:
-                f.write(obj)
+        data = self.get()
+        if data is None:
+            return
+        filter = [user for user in data if user["id"] == id]
+        if len(filter) == 1:
+            filter[0].update({ "id": id, "name": name, "email": email, "password": password, "role": role})
         else:
-            sys.stderr.write("Error: db connection failed")
+            return
+        obj = json.dumps(data, indent=4)
+        with open("data/db.json", mode="wt", encoding="utf-8") as f:
+            f.write(obj)
 
 prof = User()
 prof.put("emerson", "email@gmail", "a", 1, "teacher")
