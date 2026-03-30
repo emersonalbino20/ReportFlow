@@ -1,6 +1,7 @@
 import os
 import sys
 import json
+from utils.validators import validate_email
 
 class User:
     def __init__(self):
@@ -20,6 +21,8 @@ class User:
         data = self.get()
         if data is None:
             return
+        if validate_email(email) == False:
+           return sys.stderr.write("Error: invalid email")
         data.append({ "id": id, "name": name, "email": email, "password": password, "role": role})
         obj = json.dumps(data, indent=4)
         with open("data/db.json", mode="wt", encoding="utf-8") as f:
@@ -29,6 +32,8 @@ class User:
         data = self.get()
         if data is None:
             return
+        if validate_email(email) == False:
+           return sys.stderr.write("Error: invalid email")
         filter = [user for user in data if user["id"] == id]
         if len(filter) == 1:
             filter[0].update({ "id": id, "name": name, "email": email, "password": password, "role": role})
@@ -39,6 +44,6 @@ class User:
             f.write(obj)
 
 prof = User()
-prof.put("emerson", "email@gmail", "a", 1, "teacher")
-# prof.put("hole", "hole@fmail.com", "1221", 0, "cordinator")
+# prof.post("emerson", "email@gmail", "a", 1, "teacher")
+# prof.put(0, "hole da silva", "hole@fmail", "1221", "cordinator")
 print(prof.get())
