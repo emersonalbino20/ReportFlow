@@ -4,13 +4,14 @@ import json
 from utils.validators import validate_email, validate_password
 
 class User:
+    
     def __init__(self):
-        pass
+        self.db_path = "data/db.json"
     
     def get(self):
-        if os.path.isfile("data/db.json"):
+        if os.path.isfile(self.db_path):
             try:
-                with open("data/db.json", mode="rt", encoding="utf-8") as f:
+                with open(self.db_path, mode="rt", encoding="utf-8") as f:
                     return json.load(f)
             except:
                 sys.stderr.write("Error: fetch data")
@@ -25,7 +26,7 @@ class User:
            return None
         data.append({ "id": id, "name": name, "email": email, "password": password, "role": role})
         obj = json.dumps(data, indent=4)
-        with open("data/db.json", mode="wt", encoding="utf-8") as f:
+        with open(self.db_path, mode="wt", encoding="utf-8") as f:
             f.write(obj)
 
     def put(self, id: int, name: str, email: str, password: str, role: str) -> None:
@@ -40,7 +41,7 @@ class User:
         else:
             return sys.stderr.write("Error: user not found")
         obj = json.dumps(data, indent=4)
-        with open("data/db.json", mode="wt", encoding="utf-8") as f:
+        with open(self.db_path, mode="wt", encoding="utf-8") as f:
             f.write(obj)
     
     def patch(self, id, **kwargs):
@@ -65,7 +66,7 @@ class User:
         else:
             return sys.stderr.write("Error: user not found")
         obj = json.dumps(data, indent=4)
-        with open("data/db.json", mode="wt", encoding="utf-8") as f:
+        with open(self.db_path, mode="wt", encoding="utf-8") as f:
             f.write(obj)
 
     def delete(self, id: int):
@@ -77,7 +78,7 @@ class User:
             if user["id"] == id:
                 data.pop(count)
                 obj = json.dumps(data, indent=4)
-                with open("data/db.json", mode="wt", encoding="utf-8") as f:
+                with open(self.db_path, mode="wt", encoding="utf-8") as f:
                     f.write(obj)
                 break
             count += 1
