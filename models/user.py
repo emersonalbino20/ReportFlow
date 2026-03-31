@@ -1,7 +1,7 @@
 import os
 import sys
 import json
-from utils.validators import validate_email
+from utils.validators import validate_email, validate_password
 
 class User:
     def __init__(self):
@@ -21,8 +21,8 @@ class User:
         data = self.get()
         if data is None:
             return
-        if validate_email(email) == False:
-           return sys.stderr.write("Error: invalid email")
+        if validate_email(data, name, email)  == False or validate_password(name, password) == False:
+           return None
         data.append({ "id": id, "name": name, "email": email, "password": password, "role": role})
         obj = json.dumps(data, indent=4)
         with open("data/db.json", mode="wt", encoding="utf-8") as f:
@@ -32,8 +32,8 @@ class User:
         data = self.get()
         if data is None:
             return
-        if validate_email(email) == False:
-           return sys.stderr.write("Error: invalid email")
+        if validate_email(data, name, email) == False or validate_password(name, password) == False:
+           return None
         filter = [user for user in data if user["id"] == id]
         if len(filter) == 1:
             filter[0].update({ "id": id, "name": name, "email": email, "password": password, "role": role})
@@ -44,6 +44,6 @@ class User:
             f.write(obj)
 
 prof = User()
-# prof.post("emerson", "email@gmail", "a", 1, "teacher")
-# prof.put(0, "hole da silva", "hole@fmail", "1221", "cordinator")
-print(prof.get())
+# prof.post("jo", "hole@fmail", "ao1aaa", 1, "teacher")
+prof.put(0, "hole da silva", "hole@fmail", "1221", "cordinator")
+# print(prof.get())
