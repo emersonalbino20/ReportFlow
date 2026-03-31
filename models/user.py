@@ -38,7 +38,7 @@ class User:
         if len(filter) == 1:
             filter[0].update({ "id": id, "name": name, "email": email, "password": password, "role": role})
         else:
-            return
+            return sys.stderr.write("Error: user not found")
         obj = json.dumps(data, indent=4)
         with open("data/db.json", mode="wt", encoding="utf-8") as f:
             f.write(obj)
