@@ -6,7 +6,7 @@ def validate_email(data: dict, name: str, email: str) -> bool:
         filter = [user for user in data if user["email"] == email]
         if filter and filter[0]['name'] != name:
             sys.stderr.write("Error: email already exist\n")
-            return
+            return False
     if re.match(r"[\w\.-]+@[\w\.-]+", email):
         return True
     else:
