@@ -67,9 +67,23 @@ class User:
         obj = json.dumps(data, indent=4)
         with open("data/db.json", mode="wt", encoding="utf-8") as f:
             f.write(obj)
+
+    def delete(self, id: int):
+        data = self.get()
+        if data is None:
+            return
+        count = 0
+        for user in data:
+            if user["id"] == id:
+                data.pop(count)
+                obj = json.dumps(data, indent=4)
+                with open("data/db.json", mode="wt", encoding="utf-8") as f:
+                    f.write(obj)
+                break
+            count += 1
        
 
 prof = User()
-# prof.post("jo", "hole@fmail", "ao1aa2Wa", 0, "teacher")
+# prof.post("francis", "francis@fmail", "ped3roWa", 20, "teacher")
 # prof.put(0, "hole da silva", "hole@fmail", "1221", "cordinator")
-prof.patch(0, email="jo@gmail.com")
+# prof.delete(20)
