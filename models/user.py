@@ -42,8 +42,34 @@ class User:
         obj = json.dumps(data, indent=4)
         with open("data/db.json", mode="wt", encoding="utf-8") as f:
             f.write(obj)
+    
+    def patch(self, id, **kwargs):
+        data = self.get()
+        if data is None:
+            return 
+        if len(kwargs) != 1:
+            return sys.stderr.write("Error: invalid body content")
+        exist = [k for k in kwargs if k in 'idnameemailpasswordrole']
+        if len(exist) == 0:
+            return sys.stderr.write("Error: invalid field")
+        filter = [user for user in data if user["id"] == id]
+        if len(filter) == 1:
+            for key in kwargs.keys():
+                if key == 'email':
+                    if validate_email(data, (filter[0])['name'], kwargs[key]) == False:
+                        return
+                elif key == 'password':
+                    if validate_password((filter[0])['name'], kwargs[key]) == False:
+                        return
+            filter[0].update(kwargs)
+        else:
+            return sys.stderr.write("Error: user not found")
+        obj = json.dumps(data, indent=4)
+        with open("data/db.json", mode="wt", encoding="utf-8") as f:
+            f.write(obj)
+       
 
 prof = User()
-# prof.post("jo", "hole@fmail", "ao1aaa", 1, "teacher")
-prof.put(0, "hole da silva", "hole@fmail", "1221", "cordinator")
-# print(prof.get())
+# prof.post("jo", "hole@fmail", "ao1aa2Wa", 0, "teacher")
+# prof.put(0, "hole da silva", "hole@fmail", "1221", "cordinator")
+prof.patch(0, email="jo@gmail.com")
