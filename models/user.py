@@ -18,13 +18,13 @@ class User:
         else:
             sys.stderr.write("Error: db connection")
 
-    def post(self, name: str, email: str, password: str, id=0, role="teacher") -> None:
+    def post(self, name: str, email: str, password: str, role="teacher") -> None:
         data = self.get()
         if data is None:
             return
         if validate_email(data, name, email)  == False or validate_password(name, password) == False:
            return None
-        data.append({ "id": id, "name": name, "email": email, "password": password, "role": role})
+        data.append({ "id": len(data) + 1, "name": name, "email": email, "password": password, "role": role})
         obj = json.dumps(data, indent=4)
         with open(self.db_path, mode="wt", encoding="utf-8") as f:
             f.write(obj)
