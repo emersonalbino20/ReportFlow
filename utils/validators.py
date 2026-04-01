@@ -9,9 +9,8 @@ def validate_email(data: dict, id: int, email: str) -> bool:
             return False
     if re.match(r"[\w\.-]+@[\w\.-]+", email):
         return True
-    else:
-        sys.stderr.write("Error: invalid email\n")
-        return False
+    sys.stderr.write("Error: invalid email\n")
+    return False
 
 def validate_password(name: str, password: str) -> bool:
     if (len(password) != 8):
@@ -28,3 +27,15 @@ def validate_password(name: str, password: str) -> bool:
         return False
     else:
         return True
+
+def validate_date(date: str):
+    if len(date) == 10 and re.search(r"\d\d\d\d-\d\d-\d\d", date):
+        return True
+    sys.stderr.write("Error: invalid date\n")
+    return False
+
+def validate_content(content: str) -> bool:
+    if len(content) < 10:
+        sys.stderr.write("Error: content should have more than 9 chars\n")
+        return False
+    return True
