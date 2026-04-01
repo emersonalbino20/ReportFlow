@@ -1,10 +1,10 @@
 import re
 import sys
 
-def validate_email(data: dict, name: str, email: str) -> bool:
+def validate_email(data: dict, id: int, email: str) -> bool:
     if data:
         filter = [user for user in data if user["email"] == email]
-        if filter and filter[0]['name'] != name:
+        if filter and filter[0]['id'] != id:
             sys.stderr.write("Error: email already exist\n")
             return False
     if re.match(r"[\w\.-]+@[\w\.-]+", email):
