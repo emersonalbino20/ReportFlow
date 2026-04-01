@@ -22,7 +22,7 @@ class User:
         data = self.get()
         if data is None:
             return
-        if validate_email(data, name, email)  == False or validate_password(name, password) == False:
+        if validate_email(data, len(data) + 1, email)  == False or validate_password(name, password) == False:
            return None
         data.append({ "id": len(data) + 1, "name": name, "email": email, "password": password, "role": role})
         obj = json.dumps(data, indent=4)
@@ -33,7 +33,7 @@ class User:
         data = self.get()
         if data is None:
             return
-        if validate_email(data, name, email) == False or validate_password(name, password) == False:
+        if validate_email(data, id, email) == False or validate_password(name, password) == False:
            return None
         filter = [user for user in data if user["id"] == id]
         if len(filter) == 1:
@@ -57,7 +57,7 @@ class User:
         if len(filter) == 1:
             for key in kwargs.keys():
                 if key == 'email':
-                    if validate_email(data, (filter[0])['name'], kwargs[key]) == False:
+                    if validate_email(data, (filter[0])['id'], kwargs[key]) == False:
                         return
                 elif key == 'password':
                     if validate_password((filter[0])['name'], kwargs[key]) == False:
@@ -85,6 +85,6 @@ class User:
        
 
 prof = User()
-# prof.post("francis", "francis@fmail", "ped3roWa", 20, "teacher")
+prof.patch(2, email="francis@fmail")
 # prof.put(0, "hole da silva", "hole@fmail", "1221", "cordinator")
 # prof.delete(20)
