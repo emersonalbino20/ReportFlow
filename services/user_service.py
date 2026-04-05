@@ -12,17 +12,15 @@ def get_users():
             with open(db_path, mode="rt", encoding="utf-8") as f:
                 return json.load(f)
         except:
-            sys.stderr.write("Error: fetch data")
+            sys.stderr.write("Error: fetch data\n")
     else:
-        sys.stderr.write("Error: db connection")
+        sys.stderr.write("Error: db connection\n")
 
 def get_user_by_id(user_id: int) -> User | None:
     data = get_users()
     if data["users"] is None:
         return None
-    for user in data["users"]:
-        if user["id"] == user_id:
-            return user
+    return [user for user in data["users"] if user["id"] == user_id][0]
     sys.stderr.write("Error: User not found\n")
     return None
 
@@ -41,17 +39,14 @@ def create_user(name: str, email: str, password: str, role: str) -> bool:
 
 def update_user(id: int, name: str, email: str, password: str, role: str) -> bool:
     data = get_users()
-    if data["users"] is None:
+    exist_user = get_user_by_id(id)
+    if data["users"] is None or exist_user is None:
         return False
     if validate_email(data["users"], id, email) == False or validate_password(name, password) == False:
        return False
     filter = [user for user in data["users"] if user["id"] == id]
-    if len(filter) == 1:
-        user = User(id, name, email, password, role)
-        filter[0].update(user.to_dict())
-    else:
-        sys.stderr.write("Error: user not found")
-        return False
+    user = User(id, name, email, password, role)
+    filter[0].update(user.to_dict())
     obj = json.dumps(data, indent=4)
     with open(db_path, mode="wt", encoding="utf-8") as f:
         f.write(obj)
@@ -59,28 +54,25 @@ def update_user(id: int, name: str, email: str, password: str, role: str) -> boo
     
 def patch_user(id: int, **kwargs) -> bool:
     data = get_users()
-    if data["users"] is None:
+    exist_user = get_user_by_id(id)
+    if data["users"] is None or exist_user is None:
         return False
     if len(kwargs) != 1:
-        sys.stderr.write("Error: invalid body content")
+        sys.stderr.write("Error: invalid body content\n")
         return False
-    exist = [k for k in kwargs if k in 'idnameemailpasswordrole']
-    if len(exist) == 0:
+    exist_field = [k for k in kwargs if k in 'idnameemailpasswordrole']
+    if len(exist_field) == 0:
         sys.stderr.write("Error: invalid field")
         return False
     filter = [user for user in data["users"] if user["id"] == id]
-    if len(filter) == 1:
-        for key in kwargs.keys():
-            if key == 'email':
-                if validate_email(data["users"], (filter[0])['id'], kwargs[key]) == False:
-                    return False
-            elif key == 'password':
-                if validate_password((filter[0])['name'], kwargs[key]) == False:
-                    return False
-        filter[0].update(kwargs)
-    else:
-        sys.stderr.write("Error: user not found")
-        return False
+    for key in kwargs.keys():
+        if key == 'email':
+            if validate_email(data["users"], (filter[0])['id'], kwargs[key]) == False:
+                return False
+        elif key == 'password':
+            if validate_password((filter[0])['name'], kwargs[key]) == False:
+                return False
+    filter[0].update(kwargs)
     obj = json.dumps(data, indent=4)
     with open(db_path, mode="wt", encoding="utf-8") as f:
         f.write(obj)
@@ -99,5 +91,5 @@ def delete_user(id: int) -> bool:
                 f.write(obj)
                 return True
         count += 1
-    sys.stderr.write("Error: Not found\n")
+    sys.stderr.write("Error: User not found\n")
     return False

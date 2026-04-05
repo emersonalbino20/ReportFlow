@@ -2,6 +2,7 @@ import os
 import sys
 import json
 from utils.validators import validate_date, validate_content
+from services.user_service import get_user_by_id
 from models.report import Report
 
 db_path = "data/db.json"
@@ -12,13 +13,14 @@ def get_reports():
             with open(db_path, mode="rt", encoding="utf-8") as f:
                 return json.load(f)
         except:
-            sys.stderr.write("Error: fetch data")
+            sys.stderr.write("Error: fetch data\n")
     else:
-        sys.stderr.write("Error: db connection")
+        sys.stderr.write("Error: db connection\n")
 
 def create_report(user_id: int, date: str, content: str) -> bool:
     data = get_reports()
-    if data["reports"] is None:
+    user = get_user_by_id(user_id)
+    if data["reports"] is None or user is None:
         return False
     if validate_date(date) == False or validate_content(content) == False:
         return False
@@ -31,7 +33,8 @@ def create_report(user_id: int, date: str, content: str) -> bool:
 
 def update_report(id: int, user_id :int, date: str, content: str) -> None:
     data = get_reports()
-    if data["reports"] is None:
+    user = get_user_by_id(user_id)
+    if data["reports"] is None or user is None:
         return False
     if validate_date(date) == False or validate_content(content) == False:
         return False
@@ -40,7 +43,7 @@ def update_report(id: int, user_id :int, date: str, content: str) -> None:
         report = Report(id, user_id, date, content)
         filter[0].update(report.to_dict())
     else:
-        sys.stderr.write("Error: user not found")
+        sys.stderr.write("Error: user not found\n")
         return False
     obj = json.dumps(data, indent=4)
     with open(db_path, mode="wt", encoding="utf-8") as f:
@@ -69,7 +72,7 @@ def patch_report(id: int, **kwargs) -> bool:
                     return False
         filter[0].update(kwargs)
     else:
-        return sys.stderr.write("Error: report not found")
+        return sys.stderr.write("Error: report not found\n")
     obj = json.dumps(data, indent=4)
     with open(db_path, mode="wt", encoding="utf-8") as f:
         f.write(obj)
