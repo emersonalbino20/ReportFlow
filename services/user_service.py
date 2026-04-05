@@ -16,6 +16,16 @@ def get_users():
     else:
         sys.stderr.write("Error: db connection")
 
+def get_user_by_id(user_id: int) -> User | None:
+    data = get_users()
+    if data["users"] is None:
+        return None
+    for user in data["users"]:
+        if user["id"] == user_id:
+            return user
+    sys.stderr.write("Error: User not found\n")
+    return None
+
 def create_user(name: str, email: str, password: str, role: str) -> bool:
     data = get_users()
     if data["users"] is None:
