@@ -6,6 +6,7 @@ def report_menu(role: str):
     elif role == "coordinator":
         print("1 - Reports by teacher")
         print("2 - Reports by date")
-        print("3 - Back")
+        print("3 - All reports")
+        print("4 - Back")
     else:
         quit()

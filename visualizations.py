@@ -10,3 +10,18 @@ def list_users(users: dict):
             elif key == "email":
                 print("{0:<10}".format(value), end=" ")
         print()
+
+def list_reports(reports: dict):
+    data = reports
+    print("{0:<5}{1:<5}{2:>10}{3:>10}\n".format("ID", "TEACHER", "DATE", "CONTENT"))
+    for reports in data["reports"]:
+        for key, value in reports.items():
+            if key == "id":
+                print("{0:<5}".format(value), end="")
+            if key == "user_id":
+                print("{0:<5}".format(value), end="")
+            elif key == "date":
+                print("{0:>10}".format(value), end="")
+            elif key == "content":
+                print("{0:10}".format(value), end=" ")
+        print()

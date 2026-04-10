@@ -4,7 +4,8 @@ from db.init import init_db
 from utils.connect import simulate
 from services.auth_service import login, register_user, register_report
 from services.user_service import get_users
-from visualizations import list_users
+from services.report_service import get_reports
+from visualizations import list_users, list_reports
 from menus.main_menu import main_menu
 from menus.user_menu import user_menu
 from menus.report_menu import report_menu
@@ -76,6 +77,10 @@ else:
                                 print("\033c")
                                 print("All date reports")
                             elif report_option == "3":
+                                print("\033c")
+                                list_reports(get_reports())
+                                time.sleep(2)
+                            elif report_option == "4":
                                 print("\033c")
                                 break
                             else:
