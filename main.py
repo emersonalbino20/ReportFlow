@@ -2,7 +2,7 @@ import sys
 import time
 from db.init import init_db
 from utils.connect import simulate
-from services.auth_service import login, register_user
+from services.auth_service import login, register_user, register_report
 from services.user_service import get_users
 from visualizations import list_users
 from menus.main_menu import main_menu
@@ -85,7 +85,8 @@ else:
                     elif (user_option == "1"
                             and current_user["role"] == "teacher"):
                         print("\033c")
-                        print("Registering report")
+                        register_report(current_user["id"])
+                        time.sleep(2)
                     elif (user_option == "2"
                             and current_user["role"] == "teacher"):
                         print("\033c")
