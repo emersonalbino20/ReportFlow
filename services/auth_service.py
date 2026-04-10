@@ -1,22 +1,25 @@
 import sys
-from services.user_service import create_user, get_user
+from services.user_service import create_user, get_users
 
 def register_user():
-    if create_user(input("Name: "), input("Email: "), input("Password: "), input("Role: ")):
+    name = input("Name: ")
+    email = input("Email: ")
+    passw = input("Password: ")
+    role = input("Role: ")
+    if create_user(name, email, passw, role):
         print("Registered!")
     else:
         sys.stderr.write("Failed!\n")
 
 def login():
-    name = input("Name: ")
-    passw = input("Passoword: ")
-    data = get_user()
+    data = get_users()
     if len(data) == 0:
         return sys.stderr.write("No register\n")
-    user = [user for user in data if user["name"] == name and user["password"] == passw]
+    name = input("Name: ")
+    passw = input("Password: ")
+    user = [user for user in data["users"] if user["name"] == name and user["password"] == passw]
     if len(user) == 1:
-        print("Wellcome Mr. {} {}".format(user[0]["role"], user[0]["name"]))
+        return user[0]
     else:
-        sys.stderr.write("Not registerd!\n")
-
-login()
+        sys.stderr.write("Not registered!\n")
+        return None

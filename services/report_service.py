@@ -17,12 +17,15 @@ def get_reports():
     else:
         sys.stderr.write("Error: db connection\n")
 
-def create_report(user_id: int, date: str, content: str) -> bool:
+def create_report(
+        user_id: int, date: str, 
+        content: str) -> bool:
     data = get_reports()
     user = get_user_by_id(user_id)
     if data["reports"] is None or user is None:
         return False
-    if validate_date(date) == False or validate_content(content) == False:
+    if (validate_date(date) == False 
+            or validate_content(content) == False):
         return False
     report = Report(len(data["reports"]) + 1, user_id, date, content)
     data["reports"].append(report.to_dict())
@@ -31,19 +34,22 @@ def create_report(user_id: int, date: str, content: str) -> bool:
         f.write(obj)
     return True
 
-def update_report(id: int, user_id :int, date: str, content: str) -> None:
+def update_report(
+        id: int, user_id :int, date: str,
+        content: str) -> None:
     data = get_reports()
     user = get_user_by_id(user_id)
     if data["reports"] is None or user is None:
         return False
-    if validate_date(date) == False or validate_content(content) == False:
+    if (validate_date(date) == False 
+            or validate_content(content) == False):
         return False
     filter = [report for report in data["reports"] if report["id"] == id]
     if len(filter) == 1:
         report = Report(id, user_id, date, content)
         filter[0].update(report.to_dict())
     else:
-        sys.stderr.write("Error: user not found\n")
+        sys.stderr.write("Error: report not found\n")
         return False
     obj = json.dumps(data, indent=4)
     with open(db_path, mode="wt", encoding="utf-8") as f:
@@ -91,5 +97,5 @@ def delete_report(id: int) -> bool:
                 f.write(obj)
                 return True
         count += 1
-    sys.stderr.write("Error: Not found\n")
+    sys.stderr.write("Error: report not found\n")
     return True

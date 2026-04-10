@@ -24,11 +24,14 @@ def get_user_by_id(user_id: int) -> User | None:
     sys.stderr.write("Error: User not found\n")
     return None
 
-def create_user(name: str, email: str, password: str, role: str) -> bool:
+def create_user(
+        name: str, email: str, password: str, 
+        role: str) -> bool:
     data = get_users()
     if data["users"] is None:
         return False
-    if validate_email(data["users"], len(data["users"]) + 1, email)  == False or validate_password(name, password) == False:
+    if (validate_email(data["users"], len(data["users"]) + 1, email)  == False 
+            or validate_password(name, password) == False):
         return False
     user = User(len(data["users"]) + 1, name, email, password, role)
     data["users"].append(user.to_dict())
@@ -37,12 +40,15 @@ def create_user(name: str, email: str, password: str, role: str) -> bool:
         f.write(obj)
     return True
 
-def update_user(id: int, name: str, email: str, password: str, role: str) -> bool:
+def update_user(
+        id: int, name: str, email: str, 
+        password: str, role: str) -> bool:
     data = get_users()
     exist_user = get_user_by_id(id)
     if data["users"] is None or exist_user is None:
         return False
-    if validate_email(data["users"], id, email) == False or validate_password(name, password) == False:
+    if (validate_email(data["users"], id, email) == False 
+            or validate_password(name, password) == False):
        return False
     filter = [user for user in data["users"] if user["id"] == id]
     user = User(id, name, email, password, role)
