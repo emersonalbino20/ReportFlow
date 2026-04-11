@@ -58,7 +58,12 @@ else:
                             and current_user["role"] == "coordinator"):
                         print("\033c")
                         list_users(get_users())
-                        time.sleep(2)
+                        while True:
+                            user_option = input("1 - Back: ")
+                            if user_option.isnumeric() == False:
+                                continue
+                            elif user_option == "1":
+                                break
                     elif (user_option == "3" 
                             and current_user["role"] == "coordinator"):
                         print("\033c")
@@ -79,7 +84,14 @@ else:
                             elif report_option == "3":
                                 print("\033c")
                                 list_reports(get_reports())
-                                time.sleep(2)
+                                while True:
+                                    user_option = input("1 - Back: ")
+                                    if user_option.isnumeric() == False:
+                                        continue
+                                    elif user_option == "1":
+                                        break
+                            elif user_option == "1":
+                                break
                             elif report_option == "4":
                                 print("\033c")
                                 break
