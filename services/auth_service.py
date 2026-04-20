@@ -30,5 +30,4 @@ def login():
     if len(user) == 1:
         return user[0]
     else:
-        sys.stderr.write("Not registered!\n")
         return None

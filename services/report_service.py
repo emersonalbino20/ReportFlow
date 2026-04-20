@@ -17,6 +17,18 @@ def get_reports():
     else:
         sys.stderr.write("Error: db connection\n")
 
+def get_teacher_reports(user_id: int) -> list | None:
+    data = get_reports()
+    if data["reports"] is None:
+        return None
+    return [report for report in data["reports"] if report["user_id"] == user_id]
+
+def get_report_by_date(date: str) -> list | None:
+    data = get_reports()
+    if data["reports"] is None:
+        return None
+    return [report for report in data["reports"] if report["date"] == date]
+
 def create_report(
         user_id: int, date: str, 
         content: str) -> bool:
@@ -78,11 +90,12 @@ def patch_report(id: int, **kwargs) -> bool:
                     return False
         filter[0].update(kwargs)
     else:
-        return sys.stderr.write("Error: report not found\n")
+        sys.stderr.write("Error: report not found\n")
+        return False
     obj = json.dumps(data, indent=4)
     with open(db_path, mode="wt", encoding="utf-8") as f:
         f.write(obj)
-        return True
+    return True
 
 def delete_report(id: int) -> bool:
     data = get_reports()
@@ -95,7 +108,7 @@ def delete_report(id: int) -> bool:
             obj = json.dumps(data, indent=4)
             with open(db_path, mode="wt", encoding="utf-8") as f:
                 f.write(obj)
-                return True
+            return True
         count += 1
     sys.stderr.write("Error: report not found\n")
-    return True
+    return False

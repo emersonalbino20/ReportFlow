@@ -10,3 +10,13 @@ def list_reports(reports: dict):
     table = to_list(reports["reports"])
     headers = ["ID", "TEACHER ID", "DATE", "CONTENT"]
     print(tabulate(table, headers, tablefmt="grid"))
+
+def list_teacher_reports(reports: dict):
+    table = to_list(reports)
+    headers = ["ID", "TEACHER ID", "DATE", "CONTENT"]
+    print(tabulate(table, headers, tablefmt="grid"))
+
+def list_date_reports(reports: dict):
+    table = to_list(reports)
+    headers = ["ID", "TEACHER ID", "DATE", "CONTENT"]
+    print(tabulate(table, headers, tablefmt="grid"))
