@@ -29,6 +29,7 @@ def route_user(user):
 def teacher_flow(user):
     while True:
         clear_screen()
+        print("****Welcome {0:s} {1:s}!****".format(user["role"], user["name"]))
         user_menu(user["role"])
         option = input(": ")
         if option == "1":
@@ -47,6 +48,7 @@ def teacher_flow(user):
 def coordinator_flow(user):
     while True:
         clear_screen()
+        print("****Welcome {0:s} {1:s}!****".format(user["role"], user["name"]))
         user_menu(user["role"])
         option = input(": ")
         if option == "1":
