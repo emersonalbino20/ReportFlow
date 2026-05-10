@@ -40,7 +40,7 @@ def create_report(
             or validate_content(content) == False):
         return False
     report = Report(len(data["reports"]) + 1, user_id, date, content)
-    data["reports"].append(report.to_dict())
+    data["reports"].append(report.to_dict)
     obj = json.dumps(data, indent=4)
     with open(db_path, mode="wt", encoding="utf-8") as f:
         f.write(obj)
@@ -59,7 +59,7 @@ def update_report(
     filter = [report for report in data["reports"] if report["id"] == id]
     if len(filter) == 1:
         report = Report(id, user_id, date, content)
-        filter[0].update(report.to_dict())
+        filter[0].update(report.to_dict)
     else:
         sys.stderr.write("Error: report not found\n")
         return False

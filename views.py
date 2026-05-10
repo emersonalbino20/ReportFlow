@@ -3,7 +3,7 @@ from utils.utils import to_list
 
 def list_users(users: dict):
     table = to_list(users["users"])
-    headers = ["ID", "NAME", "EMAIL", "PASSWORD", "ROLE"]
+    headers = ["ID", "NAME", "EMAIL", "ROLE"]
     print(tabulate(table, headers, tablefmt="grid"))
 
 def list_reports(reports: dict):

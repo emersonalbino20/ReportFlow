@@ -34,7 +34,7 @@ def create_user(
             or validate_password(name, password) == False):
         return False
     user = User(len(data["users"]) + 1, name, email, password, role)
-    data["users"].append(user.to_dict())
+    data["users"].append(user.to_dict)
     obj = json.dumps(data, indent=4)
     with open(db_path, mode="wt", encoding="utf-8") as f:
         f.write(obj)
@@ -52,7 +52,7 @@ def update_user(
        return False
     filter = [user for user in data["users"] if user["id"] == id]
     user = User(id, name, email, password, role)
-    filter[0].update(user.to_dict())
+    filter[0].update(user.to_dict)
     obj = json.dumps(data, indent=4)
     with open(db_path, mode="wt", encoding="utf-8") as f:
         f.write(obj)

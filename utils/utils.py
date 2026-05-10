@@ -1,5 +1,8 @@
 def to_list(obj):
     new = []
     for item in obj:
-        new.append(list(item.values()))
+        v = list(item.values())
+        """Remove password from list"""
+        v.pop(3)
+        new.append(v)
     return new

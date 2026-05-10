@@ -7,6 +7,7 @@ class Report:
         self.date = date
         self.content = content
 
+    @property
     def to_dict(self):
         return {
             "id": self.id,
