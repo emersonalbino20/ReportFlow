@@ -4,6 +4,7 @@ from services.report_service import get_reports, get_teacher_reports, get_report
 from views import list_users, list_reports, list_teacher_reports, list_date_reports
 from menus.user_menu import user_menu
 from menus.report_menu import report_menu
+from models.report import Report
 from utils.clean import clean, clear_screen
 from time import sleep
 
@@ -83,7 +84,7 @@ def report_flow(user):
             clear_screen()
             print("Insert date (yyyy-mm-dd): ")
             input_date = input(": ")
-            if validate_date(input_date) == False:
+            if Report.validate_date(input_date) == False:
                 clear_screen()
                 print("Invalid date format")
                 sleep(2)
