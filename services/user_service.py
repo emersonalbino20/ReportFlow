@@ -1,6 +1,7 @@
 import os
 import sys
 import json
+from utils.utils import catch_error
 from models.user import User
 
 db_path = "data/db.json"
@@ -15,6 +16,7 @@ def get_users():
     else:
         sys.stderr.write("Error: db connection\n")
 
+@catch_error
 def get_user_by_id(user_id: int) -> User | None:
     data = get_users()
     if data["users"] is None:
@@ -23,6 +25,7 @@ def get_user_by_id(user_id: int) -> User | None:
     sys.stderr.write("Error: User not found\n")
     return None
 
+@catch_error
 def create_user(
         name: str, email: str, password: str, 
         role: str) -> bool:
@@ -39,6 +42,7 @@ def create_user(
         f.write(obj)
     return True
 
+@catch_error
 def update_user(
         id: int, name: str, email: str, 
         password: str, role: str) -> bool:
@@ -57,6 +61,7 @@ def update_user(
         f.write(obj)
     return True
     
+@catch_error
 def patch_user(id: int, **kwargs) -> bool:
     data = get_users()
     exist_user = get_user_by_id(id)
@@ -83,6 +88,7 @@ def patch_user(id: int, **kwargs) -> bool:
         f.write(obj)
         return True
 
+@catch_error
 def delete_user(id: int) -> bool:
     data = get_users()
     if data["users"] is None:

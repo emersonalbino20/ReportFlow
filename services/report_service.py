@@ -1,6 +1,7 @@
 import os
 import sys
 import json
+from utils.utils import catch_error
 from services.user_service import get_user_by_id
 from models.report import Report
 
@@ -16,18 +17,21 @@ def get_reports():
     else:
         sys.stderr.write("Error: db connection\n")
 
+@catch_error
 def get_teacher_reports(user_id: int) -> list | None:
     data = get_reports()
     if data["reports"] is None:
         return None
     return [report for report in data["reports"] if report["user_id"] == user_id]
 
+@catch_error
 def get_report_by_date(date: str) -> list | None:
     data = get_reports()
     if data["reports"] is None:
         return None
     return [report for report in data["reports"] if report["date"] == date]
 
+@catch_error
 def create_report(
         user_id: int, date: str, 
         content: str) -> bool:
@@ -45,6 +49,7 @@ def create_report(
         f.write(obj)
     return True
 
+@catch_error
 def update_report(
         id: int, user_id :int, date: str,
         content: str) -> None:
@@ -67,6 +72,7 @@ def update_report(
         f.write(obj)
     return True
 
+@catch_error
 def patch_report(id: int, **kwargs) -> bool:
     data = get_reports()
     if data["reports"] is None:
@@ -96,6 +102,7 @@ def patch_report(id: int, **kwargs) -> bool:
         f.write(obj)
     return True
 
+@catch_error
 def delete_report(id: int) -> bool:
     data = get_reports()
     if data["reports"] is None:
