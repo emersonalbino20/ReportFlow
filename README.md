@@ -37,7 +37,32 @@ You should have Python 3 installed and a programming environment set up on your 
    ```
    pip install -r requirements.txt
    ```
+4. **Run for the first time**
 
+   ```
+   python3 main.py
+   ```
+5. **Open manually the db and introduce the first user**
+
+   open file data/db.json and copy/paste the content below:
+   ```
+   {
+    "users": [
+        {
+            "id": 1,
+            "name": "emerson",
+            "email": "emerson@gmail.com",
+            "password": "1234",
+            "role": "coordinator"
+        }
+    ],
+    "reports": []
+   }
+   ```
+6. **Run and log**
+   ```
+   python3 main.py
+   ```
 ## Project structure
 
 ```
@@ -70,20 +95,55 @@ You should have Python 3 installed and a programming environment set up on your 
 └── views.py
 ```
 
-## Usage
+## User Profile
 
-Run the application:
+### Coordinator
 
-```
-python3 main.py
-```
+The coordinator is the main user who can:
+- Add users:
+   - coodinator
+   - teacher
+- List users
+- List reports
+   - Filter by teacher
+   - Filter by date
 
-The system simulates REST-like operations through function calls, allowing you to:
+### Teacher
 
-- Create users (professor / coordinator)
-- Authenticate users
-- Create and manage reports
-- Filter reports based on user roles
+The teacher is secondary user who can:
+- Add report
+- List their report
+
+## Contribute
+
+1. Fork the repository
+2. Clone your fork locally
+3. Create a new branch based on **main**:
+
+   ```
+    git checkout main
+    git pull origin main
+    git checkout -b your-feature-name
+   ```
+4. Make your changes and commit them
+5. Push the branch to your fork
+6. Open a Pull Request describing your changes following the conventional commits of the project
+
+## Future Features
+
+Future improvements may include:
+- Migration from JSON storage to one DB manager
+- Encrypt password
+- Delete User
+- Delete Report
+- ...
+
+## Resources
+
+   * https://roadmap.sh/python
+   * https://www.digitalocean.com/community/tutorial-series/how-to-code-in-python-3
+   * https://youtu.be/4rmBOxn0PdI?si=X5yiiPtjbWNtraC4
+   * https://www.conventionalcommits.org/en/v1.0.0/
 
 ## License
 
@@ -98,3 +158,5 @@ The system simulates REST-like operations through function calls, allowing you t
 ## Contact
 
 Email: emersonalbino019@gmail.com
+
+LinkedIn: https://www.linkedin.com/in/emerson-albino-241390251/
